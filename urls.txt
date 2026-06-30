@@ -1,0 +1,6 @@
+# One article per line. Lines starting with # are ignored.
+# Optional: add "| topic" after the URL to control image search relevance.
+# Example:
+# https://example.com/article | FIFA World Cup 2026
+
+https://en.wikipedia.org/wiki/Artificial_intelligence | technology AI

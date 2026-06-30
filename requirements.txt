@@ -1,0 +1,10 @@
+trafilatura
+sumy
+nltk
+requests
+edge-tts
+moviepy
+pillow
+google-auth
+google-auth-oauthlib
+google-api-python-client
