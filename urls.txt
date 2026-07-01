@@ -1,6 +1,4 @@
-# One article per line. Lines starting with # are ignored.
-# Optional: add "| topic" after the URL to control image search relevance.
+# Format: URL | topic | minutes
+# minutes is optional, defaults to 6 if not specified
 
-https://www.thehindu.com/news/international/us-supreme-court-upholds-birthright-citizenship-rejecting-trumps-proposed-limits/article71166635.ece | US Supreme Court birthright citizenship
-https://www.thehindu.com/sci-tech/science/ketan-agarwal-death-case-what-is-gait-analysis-explained/article71164613.ece | gait analysis forensic science
-https://www.indiatoday.in/sports/football/story/cote-divoire-vs-norway-live-score-fifa-world-cup-2026-round-of-32-knockouts-updates-2937759-2026-06-30 | FIFA World Cup 2026 football
+https://www.aajtak.in/business/utility/story/lpg-price-cut-petrol-diesel-cheaper-atf-rate-these-four-good-news-on-1st-july-tutc-dskc-2591452-2026-07-01 | LPG price cut petrol diesel July 2026 | 6
