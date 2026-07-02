@@ -48,3 +48,4 @@ jobs:
             daily_videos/*.mp4
             daily_videos/*.jpg
           retention-days: 7
+
