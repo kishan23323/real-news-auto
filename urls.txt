@@ -1,5 +1,5 @@
 # Format: URL | topic | minutes
 # minutes is optional, defaults to 6 if not specified
+# One entry is processed per run of run_daily.py (rotates in order, then wraps around)
 
-https://www.aajtak.in/programmes/non-stop-100 | non stop today 100 news | 6
-https://github.com/kishan23323/pages/blob/main/Non-Stop_Top_Headlines.txt | non stop  top headlines | 3
+https://github.com/kishan23323/pages/raw/refs/heads/main/Non-Stop_Top_Headlines.txt | Non-Stop Top Headlines | 3
