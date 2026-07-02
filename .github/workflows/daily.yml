@@ -2,10 +2,8 @@ name: Daily News Video
 
 on:
   schedule:
-    # Runs every day at 9:00 AM UTC. Adjust the cron time as you like.
-    # Cron format: minute hour day month weekday
     - cron: "0 9 * * *"
-  workflow_dispatch: {}   # lets you also trigger it manually from the Actions tab
+  workflow_dispatch: {}
 
 jobs:
   build-and-upload:
@@ -21,8 +19,11 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install ffmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install ffmpeg and Hindi fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-noto fonts-noto-extra
+          fc-cache -fv
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
@@ -30,7 +31,7 @@ jobs:
       - name: Download NLTK data
         run: python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
 
-      - name: Run pipeline (build + upload to YouTube)
+      - name: Run pipeline
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
@@ -38,10 +39,12 @@ jobs:
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python batch_run.py urls.txt
 
-      - name: Upload video as a build artifact (backup copy)
+      - name: Upload video artifact (backup)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: daily-videos
-          path: daily_videos/*.mp4
+          path: |
+            daily_videos/*.mp4
+            daily_videos/*.jpg
           retention-days: 7
