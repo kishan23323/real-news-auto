@@ -1,4 +1,4 @@
 # Format: URL | topic | minutes
 # minutes is optional, defaults to 6 if not specified
 
-https://www.aajtak.in/business/utility/story/lpg-price-cut-petrol-diesel-cheaper-atf-rate-these-four-good-news-on-1st-july-tutc-dskc-2591452-2026-07-01 | LPG price cut petrol diesel July 2026 | 6
+https://www.aajtak.in/programmes/non-stop-100 | non stop today 100 news | 6
