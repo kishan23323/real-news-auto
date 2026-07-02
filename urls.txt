@@ -1,5 +1,7 @@
 # Format: URL | topic | minutes
 # minutes is optional, defaults to 6 if not specified
-# One entry is processed per run of run_daily.py (rotates in order, then wraps around)
 
-https://github.com/kishan23323/pages/raw/refs/heads/main/Non-Stop_Top_Headlines.txt | Non-Stop Top Headlines | 3
+https://www.tv9hindi.com/india/aaj-ki-taaja-khabar-live-updates-latest-news-hindi-samachar-daily-breaking-1-july-2026-3836838.html | आज की बड़ी खबरें 1 जुलाई | 5
+https://www.timesnowhindi.com/india/aaj-ki-taza-khabar-2-july-2026-hindi-news-latest-breaking-news-or-mukhya-samachar-india-condemns-pakistan-gurdwara-russia-buying-gasoline-from-india-ram-mandir-donation-theft-empire-state-building-banner-liveblog-154841756 | आज की ताजा खबर 2 जुलाई | 5
+https://hindi.asianetnews.com/news/top-10-morning-news-july-2-2026-india-monsoon-lpg-amarnath-iran-trump-world-news-articleshow-t9t36tu/articleshow-t9t36tu | टॉप 10 मॉर्निंग न्यूज़ | 4
+https://www.tharexpressnews.com/45-latest-news-1-july-2026/ | देश दुनिया के 45 समाचार | 6
