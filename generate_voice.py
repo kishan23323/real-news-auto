@@ -5,14 +5,15 @@ import asyncio, os, time
 import edge_tts
 from moviepy import AudioFileClip, concatenate_audioclips
 
-# edge-tts talks to Microsoft's speech service over a websocket. If that
-# connection stalls (flaky network, corporate proxy blocking websockets,
-# Microsoft-side hiccup) the call can hang forever with no error — which is
-# what "stuck at generating voice" looks like. These two settings put a
-# ceiling on that: each attempt is capped at SEGMENT_TIMEOUT seconds, and
-# we retry a few times with backoff before giving up loudly.
-SEGMENT_TIMEOUT = 25   # seconds to wait for a single sentence before retrying
-MAX_RETRIES     = 4    # attempts per sentence before raising
+# edge-tts talks to Microsoft's speech service over a websocket. Two
+# separate failure modes show up as "stuck forever" if you don't guard
+# against them:
+#   1) A single call's connection stalls (flaky network) -> timeout+retry.
+#   2) Firing many requests back-to-back gets silently throttled by
+#      Microsoft's free TTS endpoint -> a small delay between segments.
+SEGMENT_TIMEOUT = 25    # seconds to wait for a single sentence before retrying
+MAX_RETRIES     = 4     # attempts per sentence before raising
+PACE_DELAY      = 1.5   # seconds to wait between segments, to avoid throttling
 
 
 def detect_language(text):
@@ -46,13 +47,12 @@ def _gen_with_retry(text, path, voice, on_retry=None):
         if on_retry:
             on_retry(attempt, MAX_RETRIES, last_err)
         if attempt < MAX_RETRIES:
-            time.sleep(min(2 * attempt, 10))
+            time.sleep(min(3 * attempt, 15))
     raise RuntimeError(
         f"Voice generation failed after {MAX_RETRIES} attempts for voice '{voice}': {last_err}. "
-        "This is almost always the edge-tts connection to Microsoft's speech "
-        "service stalling or being blocked (flaky network, VPN/proxy/firewall "
-        "blocking websockets, or the service being briefly unavailable). "
-        "Check your internet connection, try again, or try a different network."
+        "This is almost always Microsoft's free edge-tts endpoint throttling/stalling "
+        "requests that come in too fast, or a connection hiccup. Try again in a "
+        "minute, or reduce how many sentences are sent per run."
     )
 
 
@@ -75,11 +75,9 @@ def generate_voice_segments(sentences, out_dir="voice_segments",
     for i, sentence in enumerate(sentences):
         path = os.path.join(out_dir, f"seg_{i}.mp3")
 
-        # progress_cb is called with (i, total, preview); retries get a
-        # distinct message via the lambda below so the UI shows *why* it's
-        # slow instead of looking frozen.
         if progress_cb:
             progress_cb(i, total, f"generating segment {i+1}/{total}...")
+
         _gen_with_retry(sentence, path, voice, on_retry=lambda a, m, e, _i=i: (
             progress_cb(i, total, f"segment {_i+1}/{total} retry {a}/{m}: {e}") if progress_cb else None
         ))
@@ -89,6 +87,11 @@ def generate_voice_segments(sentences, out_dir="voice_segments",
         durations.append(dur)
         if progress_cb:
             progress_cb(i + 1, total, sentence[:60])
+
+        # pace requests so we don't get throttled by hitting the TTS
+        # endpoint back-to-back for 20+ sentences in a row
+        if i < total - 1:
+            time.sleep(PACE_DELAY)
     return paths, durations
 
 
