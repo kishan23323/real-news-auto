@@ -1518,8 +1518,9 @@ document.addEventListener('mouseup', () => { if (tlDragging) tlUp({});  });
 def _run_pipeline(job_id, url, topic, minutes):
     q = _jobs[job_id]['queue']
 
-    def emit(step, pct, msg, status='running', **kw):
-        q.put(json.dumps(dict(step=step, progress=pct, message=msg, status=status, **kw)))
+ def emit(step, pct, msg, status='running', **kw):
+    print(f"[{status}] step={step} {pct}% — {msg}", flush=True)
+    q.put(json.dumps(dict(step=step, progress=pct, message=msg, status=status, **kw)))
 
     try:
         emit(0, 5,  '1/6 Extracting article...')
