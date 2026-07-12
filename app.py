@@ -1490,12 +1490,12 @@ function approveTemplates() {
 const LAYOUT_STORAGE_KEY = 'realNewsLayoutEditor';
 const LAYOUT_DEFAULTS = {
   canvas: { bg: '#000000' },
-  topBanner: { h: 108, mt: 0, ml: 0, mr: 0, bg: '#FFD100', text: 'आज की 50 बड़ी खबरें', textSize: 34, textColor: '#000000' },
+  topBanner: { h: 108, mt: 0, ml: 0, mr: 0, bg: '#FFD100', fixedText: 'आज की 50 बड़ी खबरें', text: 'मुख्य समाचार आम आदमी के काम की खबरें', textSize: 72, textColor: '#000000' },
   logo: { size: 84, pos: 'top-right', shape: 'circle', bg: '#FFFFFF', border: '#333333' },
   midContainer: { bg: '#C81414', radius: 36, border: 0 },
   imageArea: { radius: 28, border: 6, bg: '#FFFFFF', gradientAlpha: 0.45 },
-  breakingBox: { bg: '#8E0E0E', outline: '#FFFFFF', textSize: 64, textColor: '#FFFFFF', text: 'BREAKING NEWS' },
-  captionBox: { bg: '#FFD100', textSize: 30, textColor: '#000000', radius: 12 },
+  breakingBox: { bg: '#8E0E0E', outline: '#FFFFFF', textSize: 72, textColor: '#FFFFFF', text: 'BREAKING NEWS' },
+  captionBox: { bg: '#FFD100', textSize: 72, textColor: '#000000', radius: 12 },
   bottomBanner: { h: 72, bg: '#121212', text: 'अपने दोस्तों के साथ फेसबुक और व्हाट्सएप पर शेयर जरूर करें', textSize: 28, textColor: '#FFFFFF', logoSize: 50 },
 };
 
@@ -1535,6 +1535,7 @@ function editorSaveDefaults() {
     top_height: _editorLayout.topBanner.h,
     top_padding: _editorLayout.topBanner.mt,
     top_margin_lr: _editorLayout.topBanner.ml,
+    top_fixed_text: _editorLayout.topBanner.fixedText,
     top_text: _editorLayout.topBanner.text,
     top_text_size: _editorLayout.topBanner.textSize,
     top_text_color: _editorLayout.topBanner.textColor,
@@ -2381,8 +2382,8 @@ def approve_templates(job_id):
                 continue
         
         # Text validations (allow any string)
-        if key in ('top_text', 'breaking_text', 'bottom_text'):
-            if not isinstance(val, str):
+      if key in ('top_text', 'top_fixed_text', 'breaking_text', 'bottom_text'):
+         if not isinstance(val, str):
                 continue
         
         style[key] = val
