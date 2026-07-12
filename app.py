@@ -2382,8 +2382,8 @@ def approve_templates(job_id):
                 continue
         
         # Text validations (allow any string)
-      if key in ('top_text', 'top_fixed_text', 'breaking_text', 'bottom_text'):
-         if not isinstance(val, str):
+       if key in ('top_text', 'top_fixed_text', 'breaking_text', 'bottom_text'):
+              if not isinstance(val, str):
                 continue
         
         style[key] = val
